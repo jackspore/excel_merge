@@ -22,6 +22,7 @@ outFile = xlwt.Workbook('UFT-8')
 sheet0 = outFile.add_sheet('Sheet1', False) # add a new sheet1 into output file
 
 listFiles = os.listdir(wdir) # list out all files under working folder
+currencyStyle = xlwt.Style.easyxf(num_format_str='￥#,##0.00')
 for fl in listFiles:
     print('processing file',fl, '...')
     filename, fileext = os.path.splitext(fl)
@@ -46,8 +47,7 @@ for fl in listFiles:
             sheet0.write(r=rowsWr, c=0, label=name)
             
             interestValue = sheet.cell(3+rowsRd, 2).value
-            styleStr = xlwt.Style.easyxf(num_format_str='￥#,##0.00')
-            sheet0.write(r=rowsWr, c=1, label=round(interestValue, 2), style=styleStr)
+            sheet0.write(r=rowsWr, c=1, label=round(interestValue, 2), style=currencyStyle)
             
             if (sheet.cell(3+rowsRd, 6).ctype == 3): # cell value is date type
                 dateValue = xlrd.xldate_as_tuple(sheet.cell(3+rowsRd, 6).value, workbook.datemode)
