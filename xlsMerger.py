@@ -16,7 +16,8 @@ wdir = input('Folder path holds excel files:')
 
 rowsWr = 0 # how many rows written
 outputFilename = os.path.join(wdir, 'merged_file.xls')
-os.remove(outputFilename) # remove output file if already exist
+if os.path.isfile(outputFilename):
+    os.remove(outputFilename) # remove output file if already exist
 outFile = xlwt.Workbook('UFT-8')
 sheet0 = outFile.add_sheet('Sheet1', False) # add a new sheet1 into output file
 
@@ -45,7 +46,8 @@ for fl in listFiles:
             sheet0.write(r=rowsWr, c=0, label=name)
             
             interestValue = sheet.cell(3+rowsRd, 2).value
-            sheet0.write(r=rowsWr, c=1, label=round(interestValue, 2))
+            styleStr = xlwt.Style.easyxf(num_format_str='￥#,##0.00')
+            sheet0.write(r=rowsWr, c=1, label=round(interestValue, 2), style=styleStr)
             
             if (sheet.cell(3+rowsRd, 6).ctype == 3): # cell value is date type
                 dateValue = xlrd.xldate_as_tuple(sheet.cell(3+rowsRd, 6).value, workbook.datemode)
