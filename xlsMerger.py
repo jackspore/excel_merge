@@ -1,14 +1,22 @@
+# author: jackspore
+# ref: https://github.com/jackspore/excel_merge.git
+# 
+# This source code is under DO WHATEVER THE FUCK YOU LIKE license
+# You can use, distribute, modify copies of this file with or
+# without author's consent
+
 import xlrd
 import xlwt
 import os
 import sys
 import  time 
-from  datetime  import  *  
+from  datetime  import  date 
 
 wdir = input('Folder path holds excel files:')
 
 rowsWr = 0 # how many rows written
 outputFilename = os.path.join(wdir, 'merged_file.xls')
+os.remove(outputFilename) # remove output file if already exist
 outFile = xlwt.Workbook('UFT-8')
 sheet0 = outFile.add_sheet('Sheet1', False) # add a new sheet1 into output file
 
