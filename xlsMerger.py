@@ -11,6 +11,7 @@ import os
 import sys
 import  time 
 from  datetime  import  date 
+from ExcelUtil import *
 
 wdir = input('Folder path holds excel files:')
 outputFilename = os.path.join(wdir, 'merged_file.xls')
@@ -18,8 +19,6 @@ if os.path.isfile(outputFilename):
     os.remove(outputFilename) # remove output file if already exist
 
 outFile = xlwt.Workbook('UFT-8')
-rmbStyle = xlwt.Style.easyxf(num_format_str='￥#,##0.00') # set cell style for RMB currency
-titleStyle = xlwt.Style.easyxf(strg_to_parse='font: bold on')
 sheet0 = outFile.add_sheet('Sheet1', False) # add a new sheet1 into output file
 
 rowsWr = 1 # how many rows written
@@ -56,7 +55,7 @@ for fl in listFiles:
             
             if (sheet.cell(3+rowsRd, 6).ctype == 3): # cell value is date type
                 dateValue = xlrd.xldate_as_tuple(sheet.cell(3+rowsRd, 6).value, workbook.datemode)
-                dateString = date(*dateValue[:3]).strftime('%Y/%m/%d')
+                dateString = toDateCellStr(dateValue)
             else:
                 dateString = sheet.cell(3+rowsRd, 6).value
             sheet0.write(r=rowsWr, c=2, label=dateString)
